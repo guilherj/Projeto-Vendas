@@ -105,7 +105,7 @@ public class ClienteDAO {
         try {
 
             // 1º Passo - Criar o comando SQL   
-            String sql = "delete from where id = ?";
+            String sql = "delete from tb_clientes where id = ?";
 
             // 2º Passo - Conectar o bando de dados e organizar o código
             PreparedStatement st = conn.prepareStatement(sql);

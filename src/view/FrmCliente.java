@@ -97,7 +97,7 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtRg = new javax.swing.JFormattedTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtCPF = new javax.swing.JFormattedTextField();
+        txtCpf = new javax.swing.JFormattedTextField();
         btPesquisar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -285,14 +285,14 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel15.setText("CPF");
 
         try {
-            txtCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCPF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtCPF.addActionListener(new java.awt.event.ActionListener() {
+        txtCpf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCPFActionPerformed(evt);
+                txtCpfActionPerformed(evt);
             }
         });
 
@@ -376,7 +376,7 @@ public class FrmCliente extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -422,7 +422,7 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel15)
-                        .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel14)
                         .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -457,6 +457,11 @@ public class FrmCliente extends javax.swing.JFrame {
                 "Código", "Nome", "RG", "CPF", "Email", "Telefone", "Celular", "Cep", "Endereço", "Nº", "Complemento", "Bairro", "Cidade", "UF"
             }
         ));
+        tableViewClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableViewClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableViewClientes);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -605,9 +610,9 @@ public class FrmCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRgActionPerformed
 
-    private void txtCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCPFActionPerformed
+    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCPFActionPerformed
+    }//GEN-LAST:event_txtCpfActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
         // TODO add your handling code here:
@@ -628,7 +633,7 @@ public class FrmCliente extends javax.swing.JFrame {
 
         obj.setNome(txtNome.getText());
         obj.setRg(txtRg.getText());
-        obj.setCpf(txtCPF.getText());
+        obj.setCpf(txtCpf.getText());
         obj.setEmail(txtEmail.getText());
         obj.setTelefone(txtTelefone.getText());
         obj.setCelular(txtCelular.getText());
@@ -647,11 +652,40 @@ public class FrmCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
-        // TODO add your handling code here:
+         // BOTÃO EDITAR
+
+        Cliente obj = new Cliente();
+
+        obj.setNome(txtNome.getText());
+        obj.setRg(txtRg.getText());
+        obj.setCpf(txtCpf.getText());
+        obj.setEmail(txtEmail.getText());
+        obj.setTelefone(txtTelefone.getText());
+        obj.setCelular(txtCelular.getText());
+        obj.setCep(txtCep.getText());
+        obj.setEndereco(txtEndereco.getText());
+        obj.setNumero(Integer.parseInt(txtNumero.getText()));
+        obj.setComplemento(txtComplemento.getText());
+        obj.setBairro(txtBairro.getText());
+        obj.setCidade(txtCidade.getText());
+        obj.setUf(comboBoxUf.getSelectedItem().toString());
+        
+        obj.setId(Integer.parseInt(txtCodigo.getText()));
+
+        ClienteDAO dao = new ClienteDAO();
+        dao.alterarCliente(obj);
+
     }//GEN-LAST:event_btEditarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        // TODO add your handling code here:
+         // BOTÃO EXCLUIR
+
+        Cliente obj = new Cliente();
+                
+        obj.setId(Integer.parseInt(txtCodigo.getText()));
+
+        ClienteDAO dao = new ClienteDAO();
+        dao.excluirCliente(obj);
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -663,6 +697,36 @@ public class FrmCliente extends javax.swing.JFrame {
         
         listar();
     }//GEN-LAST:event_formWindowActivated
+
+    private void tableViewClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableViewClientesMouseClicked
+        // Ao clicar numa linha da tabela passar para a outra aba
+        // Cada aba tem seu indice começando pelo 0 igual em vetores, o comando pega o nome da tabela e seta 
+        // a linha selecionada para a aba do indice escolhido, que nesse caso é a aba indice 0
+        jTabbedPane1.setSelectedIndex(0);
+        
+        /*
+        Agora seta os valoes que serão passados para seus respectivos campos
+        indicando primeiro o nome do text field que receberá, depois indicando qual
+        linha e coluna na table view do valor que será passado. Nesse caso passamos que receberá
+        o valor da linha selecionada, e o indice da coluna correspondente, as colunas também são indicadas por indices
+        iguais a um vetor, começando pelo 0.
+        */
+        txtCodigo.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 0).toString());
+        txtNome.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 1).toString());
+        txtRg.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 2).toString());
+        txtCpf.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 3).toString());
+        txtEmail.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 4).toString());
+        txtTelefone.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 5).toString());
+        txtCelular.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 6).toString());
+        txtCep.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 7).toString());
+        txtEndereco.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 8).toString());
+        txtNumero.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 9).toString());
+        txtComplemento.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 10).toString());
+        txtBairro.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 11).toString());
+        txtCidade.setText(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 12).toString());
+        comboBoxUf.setSelectedItem(tableViewClientes.getValueAt(tableViewClientes.getSelectedRow(), 13).toString());
+        
+    }//GEN-LAST:event_tableViewClientesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -731,12 +795,12 @@ public class FrmCliente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTable tableViewClientes;
     private javax.swing.JTextField txtBairro;
-    private javax.swing.JFormattedTextField txtCPF;
     private javax.swing.JFormattedTextField txtCelular;
     private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCidade;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtComplemento;
+    private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;
