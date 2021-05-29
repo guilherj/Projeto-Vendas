@@ -7,6 +7,7 @@ package view;
 
 import dao.ClienteDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
 import util.uteis;
@@ -732,7 +733,33 @@ public class FrmCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        // TODO add your handling code here:
+        // Botão Buscar Cliente por nome
+        String nome = txtNome.getText();
+        Cliente obj = new Cliente();
+        ClienteDAO dao = new ClienteDAO();
+        
+        obj = dao.consultaCliente(nome);
+        
+        // Exibir os dados do obj nos text fields
+        if(obj.getNome() != null){
+        txtCodigo.setText(String.valueOf(obj.getId()));
+        txtNome.setText(obj.getNome());
+        txtRg.setText(obj.getRg());
+        txtCpf.setText(obj.getCpf());
+        txtEmail.setText(obj.getEmail());
+        txtTelefone.setText(obj.getTelefone());
+        txtCelular.setText(obj.getCelular());
+        txtCep.setText(obj.getCep());
+        txtEndereco.setText(obj.getEndereco());
+        txtNumero.setText(String.valueOf(obj.getNumero()));
+        txtComplemento.setText(obj.getComplemento());
+        txtBairro.setText(obj.getBairro());
+        txtCidade.setText(obj.getCidade());
+        comboBoxUf.setSelectedItem(obj.getUf());
+        } else {
+            JOptionPane.showMessageDialog(null, "Cliente não Encontrado");
+        }
+        
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
