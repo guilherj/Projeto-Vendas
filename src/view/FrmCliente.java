@@ -6,6 +6,7 @@
 package view;
 
 import dao.ClienteDAO;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -207,6 +208,11 @@ public class FrmCliente extends javax.swing.JFrame {
                 txtCepActionPerformed(evt);
             }
         });
+        txtCep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCepKeyPressed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Endereço");
@@ -262,7 +268,7 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel13.setText("UF");
 
         comboBoxUf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboBoxUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SP", "RJ", "MG", " " }));
+        comboBoxUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO", " " }));
         comboBoxUf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxUfActionPerformed(evt);
@@ -429,7 +435,7 @@ public class FrmCliente extends javax.swing.JFrame {
                     .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel14)
                         .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados Pessoais", panelDadosPessoais);
@@ -835,6 +841,22 @@ public class FrmCliente extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_txtPesquisaKeyPressed
+
+    private void txtCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCepKeyPressed
+        //Programacao do keypress para fazer a consulta após o usuário clicar no ENTER
+	if (evt.getKeyCode() == KeyEvent.VK_ENTER) { 
+         Cliente obj =  new Cliente();
+         ClienteDAO dao = new ClienteDAO();
+         obj = dao.buscaCep(txtCep.getText());
+         
+         txtEndereco.setText(obj.getEndereco());
+         txtBairro.setText(obj.getBairro());
+         txtCidade.setText(obj.getCidade());
+         comboBoxUf.setSelectedItem(obj.getUf());               
+         System.out.println(obj.getUf());
+         
+     }
+    }//GEN-LAST:event_txtCepKeyPressed
 
     /**
      * @param args the command line arguments

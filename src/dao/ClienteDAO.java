@@ -5,6 +5,7 @@
  */
 package dao;
 
+import model.WebServiceCep;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.Cliente;
@@ -68,8 +69,7 @@ public class ClienteDAO {
 
             // 1º Passo - Criar o comando SQL   
             String sql = "update tb_clientes set nome=?,rg=?,cpf=?,email=?,telefone=?,celular=?,cep=?,"
-                         + "endereco=?,numero=?,complemento=?,bairro=?,cidade=?,estado=? where id =?";
-                    
+                    + "endereco=?,numero=?,complemento=?,bairro=?,cidade=?,estado=? where id =?";
 
             // 2º Passo - Conectar o bando de dados e organizar o código
             PreparedStatement st = conn.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class ClienteDAO {
             st.setString(11, obj.getBairro());
             st.setString(12, obj.getCidade());
             st.setString(13, obj.getUf());
-            
+
             st.setInt(14, obj.getId());
 
             // 3º Passo - Executar o comando SQL    
@@ -161,20 +161,20 @@ public class ClienteDAO {
         }
 
     }
-    
+
     // Método para consulta do Cliente por nome
-    public Cliente consultaCliente(String nome){
-        
+    public Cliente consultaCliente(String nome) {
+
         try {
             String sql = "select * from tb_clientes where nome=?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, nome);
-            
+
             ResultSet rs = st.executeQuery();
             Cliente obj = new Cliente();
-            
+
             if (rs.next()) {
-                
+
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setRg(rs.getString("rg"));
@@ -190,7 +190,7 @@ public class ClienteDAO {
                 obj.setCidade(rs.getString("cidade"));
                 obj.setUf(rs.getString("estado"));
 
-               }
+            }
 
             return obj;
 
@@ -199,8 +199,7 @@ public class ClienteDAO {
             return null;
         }
     }
-    
-    
+
     // Método para buscar Clientes por nome
     public List<Cliente> buscarClientePorNome(String nome) {
 
@@ -209,9 +208,9 @@ public class ClienteDAO {
             String sql = "select * from tb_clientes where nome like ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, nome);
-            
+
             ResultSet rs = st.executeQuery();
-            
+
             while (rs.next()) {
                 Cliente obj = new Cliente();
 
@@ -240,6 +239,27 @@ public class ClienteDAO {
             JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
             return null;
         }
+    }
+
+    // Prenchimento automatico do endereço pelo cep (precisa de internet)
+    public Cliente buscaCep(String cep) {
+
+        WebServiceCep webServiceCep = WebServiceCep.searchCep(cep);
+
+        Cliente obj = new Cliente();
+
+        if (webServiceCep.wasSuccessful()) {
+            obj.setEndereco(webServiceCep.getLogradouroFull());
+            obj.setCidade(webServiceCep.getCidade());
+            obj.setBairro(webServiceCep.getBairro());
+            obj.setUf(webServiceCep.getUf());
+            return obj;
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro numero: " + webServiceCep.getResulCode());
+            JOptionPane.showMessageDialog(null, "Descrição do erro: " + webServiceCep.getResultText());
+            return null;
+        }
+
     }
 
 }
