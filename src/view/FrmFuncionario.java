@@ -23,30 +23,33 @@ public class FrmFuncionario extends javax.swing.JFrame {
     
     public void listar(){
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.listarClientes();
+        FuncionarioDAO dao = new FuncionarioDAO();
+        List<Funcionario> list = dao.listarFuncionarios();
         
         DefaultTableModel dados = (DefaultTableModel) tableViewFuncionarios.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
+        for(Funcionario f : list){
             
             dados.addRow(new Object[]{
             
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
+            f.getId(),
+            f.getNome(),
+            f.getRg(),
+            f.getCpf(),
+            f.getEmail(),
+            f.getSenha(),
+            f.getCargo(),
+            f.getNivelAcesso(),
+            f.getTelefone(),
+            f.getCelular(),
+            f.getCep(),
+            f.getEndereco(),
+            f.getNumero(),
+            f.getComplemento(),
+            f.getBairro(),
+            f.getCidade(),
+            f.getUf()
             });
             
         }
