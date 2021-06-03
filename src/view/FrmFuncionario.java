@@ -6,11 +6,13 @@
 package view;
 
 import dao.ClienteDAO;
+import dao.FuncionarioDAO;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
+import model.Funcionario;
 import util.uteis;
 
 /**
@@ -105,9 +107,9 @@ public class FrmFuncionario extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
         jLabel18 = new javax.swing.JLabel();
-        txtCidade1 = new javax.swing.JTextField();
+        txtCargo = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        comboBoxNivel = new javax.swing.JComboBox<>();
+        comboBoxNivelAcesso = new javax.swing.JComboBox<>();
         panelConsultaClientes = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         txtPesquisa = new javax.swing.JTextField();
@@ -327,21 +329,21 @@ public class FrmFuncionario extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel18.setText("Cargo");
 
-        txtCidade1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtCidade1.addActionListener(new java.awt.event.ActionListener() {
+        txtCargo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCidade1ActionPerformed(evt);
+                txtCargoActionPerformed(evt);
             }
         });
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel19.setText("Nível de Acesso");
 
-        comboBoxNivel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboBoxNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuário", "Administrador", " " }));
-        comboBoxNivel.addActionListener(new java.awt.event.ActionListener() {
+        comboBoxNivelAcesso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxNivelAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuário", "Administrador", " " }));
+        comboBoxNivelAcesso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxNivelActionPerformed(evt);
+                comboBoxNivelAcessoActionPerformed(evt);
             }
         });
 
@@ -426,11 +428,11 @@ public class FrmFuncionario extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel18)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCidade1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboBoxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(comboBoxNivelAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(53, 53, 53))
         );
@@ -471,28 +473,29 @@ public class FrmFuncionario extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosPessoaisLayout.createSequentialGroup()
                         .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel10)
+                                .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel11)
+                                .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel13)
+                                .addComponent(comboBoxUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel15)
-                                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11)
-                                    .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel13)
-                                    .addComponent(comboBoxUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel14)
                                 .addComponent(txtRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)))
-                .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel19)
+                        .addComponent(comboBoxNivelAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel18)
-                        .addComponent(txtCidade1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel19)
-                            .addComponent(comboBoxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel17)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(69, Short.MAX_VALUE))
         );
 
@@ -734,12 +737,15 @@ public class FrmFuncionario extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         // BOTÃO SALVAR
 
-        Cliente obj = new Cliente();
+        Funcionario obj = new Funcionario();
 
         obj.setNome(txtNome.getText());
         obj.setRg(txtRg.getText());
         obj.setCpf(txtCpf.getText());
         obj.setEmail(txtEmail.getText());
+        obj.setSenha(txtSenha.getText());
+        obj.setCargo(txtCargo.getText());
+        obj.setNivelAcesso(comboBoxNivelAcesso.getSelectedItem().toString());
         obj.setTelefone(txtTelefone.getText());
         obj.setCelular(txtCelular.getText());
         obj.setCep(txtCep.getText());
@@ -750,8 +756,8 @@ public class FrmFuncionario extends javax.swing.JFrame {
         obj.setCidade(txtCidade.getText());
         obj.setUf(comboBoxUf.getSelectedItem().toString());
 
-        ClienteDAO dao = new ClienteDAO();
-        dao.cadastrarCliente(obj);
+        FuncionarioDAO dao = new FuncionarioDAO();
+        dao.cadastrarFuncionario(obj);
         uteis.limparTela(panelDadosPessoais);
 
 
@@ -916,13 +922,13 @@ public class FrmFuncionario extends javax.swing.JFrame {
      }
     }//GEN-LAST:event_txtCepKeyPressed
 
-    private void txtCidade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCidade1ActionPerformed
+    private void txtCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCargoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCidade1ActionPerformed
+    }//GEN-LAST:event_txtCargoActionPerformed
 
-    private void comboBoxNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxNivelActionPerformed
+    private void comboBoxNivelAcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxNivelAcessoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxNivelActionPerformed
+    }//GEN-LAST:event_comboBoxNivelAcessoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -967,7 +973,7 @@ public class FrmFuncionario extends javax.swing.JFrame {
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btPesquisarConsulta;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JComboBox<String> comboBoxNivel;
+    private javax.swing.JComboBox<String> comboBoxNivelAcesso;
     private javax.swing.JComboBox<String> comboBoxUf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -995,10 +1001,10 @@ public class FrmFuncionario extends javax.swing.JFrame {
     private javax.swing.JPanel panelDadosPessoais;
     private javax.swing.JTable tableViewFuncionarios;
     private javax.swing.JTextField txtBairro;
+    private javax.swing.JTextField txtCargo;
     private javax.swing.JFormattedTextField txtCelular;
     private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCidade;
-    private javax.swing.JTextField txtCidade1;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtComplemento;
     private javax.swing.JFormattedTextField txtCpf;
