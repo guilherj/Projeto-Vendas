@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionFactory;
 import model.Funcionario;
 import model.WebServiceCep;
+import view.FrmTelaInicial;
 
 /**
  *
@@ -277,5 +278,35 @@ public class FuncionarioDAO {
             return null;
         }
 
+    }
+    
+    // Método para se Logar no sistema
+    public void login(String email, String senha){
+        try{
+        String sql = "select * from tb_funcionarios where email=? and senha=?";
+        
+        PreparedStatement st = conn.prepareStatement(sql);
+        
+        st.setString(1, email);
+        st.setString(2, senha);
+        
+        ResultSet rs = st.executeQuery();
+        
+        if(rs.next()){
+            // Usuário Logado
+            
+           JOptionPane.showMessageDialog(null, "Seja Bem Vindo ao Sistema!");
+            FrmTelaInicial tela = new FrmTelaInicial();
+            tela.setVisible(true);
+        } else{
+           // Falha no logon
+           JOptionPane.showMessageDialog(null, "Falha no Logon - Dados Inválidos!");
+           
+        }
+        
+        
+        } catch(SQLException e){
+          JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
+        }
     }
 }

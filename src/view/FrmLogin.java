@@ -5,6 +5,8 @@
  */
 package view;
 
+import dao.FuncionarioDAO;
+
 /**
  *
  * @author Guilherme
@@ -36,7 +38,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Seja Bem Vindo ao Sistema - Autenticação");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -54,6 +56,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         btEntrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btEntrar.setText("ENTRAR");
+        btEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEntrarActionPerformed(evt);
+            }
+        });
 
         btSair.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSair.setText("SAIR");
@@ -134,6 +141,16 @@ public class FrmLogin extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
+        // Botão Entrar
+        String email = txtEmail.getText();
+        String senha = txtSenha.getText();
+        
+        FuncionarioDAO dao = new FuncionarioDAO();
+        dao.login(email, senha);
+        this.dispose();
+    }//GEN-LAST:event_btEntrarActionPerformed
 
     /**
      * @param args the command line arguments
