@@ -701,30 +701,33 @@ public class FrmFuncionario extends javax.swing.JFrame {
         
         String nome = "%" + txtPesquisa.getText() + "%";
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.buscarClientePorNome(nome);
+        FuncionarioDAO dao = new FuncionarioDAO();
+        List<Funcionario> list = dao.buscarFuncionarioPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel) tableViewFuncionarios.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
+        for(Funcionario f : list){
             
             dados.addRow(new Object[]{
             
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
+            f.getId(),
+            f.getNome(),
+            f.getRg(),
+            f.getCpf(),
+            f.getEmail(),
+            f.getSenha(),
+            f.getCargo(),
+            f.getNivelAcesso(),
+            f.getTelefone(),
+            f.getCelular(),
+            f.getCep(),
+            f.getEndereco(),
+            f.getNumero(),
+            f.getComplemento(),
+            f.getBairro(),
+            f.getCidade(),
+            f.getUf()
             });
             
         }
@@ -769,12 +772,15 @@ public class FrmFuncionario extends javax.swing.JFrame {
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
          // BOTÃO EDITAR
 
-        Cliente obj = new Cliente();
+        Funcionario obj = new Funcionario();
 
         obj.setNome(txtNome.getText());
         obj.setRg(txtRg.getText());
         obj.setCpf(txtCpf.getText());
         obj.setEmail(txtEmail.getText());
+        obj.setSenha(txtSenha.getText());
+        obj.setCargo(txtCargo.getText());
+        obj.setNivelAcesso(comboBoxNivelAcesso.getSelectedItem().toString());
         obj.setTelefone(txtTelefone.getText());
         obj.setCelular(txtCelular.getText());
         obj.setCep(txtCep.getText());
@@ -787,8 +793,8 @@ public class FrmFuncionario extends javax.swing.JFrame {
         
         obj.setId(Integer.parseInt(txtCodigo.getText()));
 
-        ClienteDAO dao = new ClienteDAO();
-        dao.alterarCliente(obj);
+        FuncionarioDAO dao = new FuncionarioDAO();
+        dao.alterarFuncionario(obj);
         uteis.limparTela(panelDadosPessoais);
 
     }//GEN-LAST:event_btEditarActionPerformed
@@ -796,22 +802,22 @@ public class FrmFuncionario extends javax.swing.JFrame {
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
          // BOTÃO EXCLUIR
 
-        Cliente obj = new Cliente();
+        Funcionario obj = new Funcionario();
                 
         obj.setId(Integer.parseInt(txtCodigo.getText()));
 
-        ClienteDAO dao = new ClienteDAO();
-        dao.excluirCliente(obj);
+        FuncionarioDAO dao = new FuncionarioDAO();
+        dao.excluirFuncionario(obj);
         uteis.limparTela(panelDadosPessoais);
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        // Botão Buscar Cliente por nome
+        // Botão Buscar Funcionario por nome
         String nome = txtNome.getText();
-        Cliente obj = new Cliente();
-        ClienteDAO dao = new ClienteDAO();
+        Funcionario obj = new Funcionario();
+        FuncionarioDAO dao = new FuncionarioDAO();
         
-        obj = dao.consultaCliente(nome);
+        obj = dao.consultaFuncionario(nome);
         
         // Exibir os dados do obj nos text fields
         if(obj.getNome() != null){
@@ -820,6 +826,9 @@ public class FrmFuncionario extends javax.swing.JFrame {
         txtRg.setText(obj.getRg());
         txtCpf.setText(obj.getCpf());
         txtEmail.setText(obj.getEmail());
+        txtSenha.setText(obj.getSenha());
+        txtCargo.setText(obj.getCargo());
+        comboBoxNivelAcesso.setSelectedItem(obj.getNivelAcesso());
         txtTelefone.setText(obj.getTelefone());
         txtCelular.setText(obj.getCelular());
         txtCep.setText(obj.getCep());
@@ -830,13 +839,13 @@ public class FrmFuncionario extends javax.swing.JFrame {
         txtCidade.setText(obj.getCidade());
         comboBoxUf.setSelectedItem(obj.getUf());
         } else {
-            JOptionPane.showMessageDialog(null, "Cliente não Encontrado");
+            JOptionPane.showMessageDialog(null, "Funcionario não Encontrado");
         }
         
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // Chamada do Método Listar Lista para ao abrir a tela já carregar a lista de clientes
+        // Chamada do Método Listar Lista para ao abrir a tela já carregar a lista de Funcionario
         
         listar();
     }//GEN-LAST:event_formWindowActivated
@@ -859,15 +868,18 @@ public class FrmFuncionario extends javax.swing.JFrame {
         txtRg.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 2).toString());
         txtCpf.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 3).toString());
         txtEmail.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 4).toString());
-        txtTelefone.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 5).toString());
-        txtCelular.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 6).toString());
-        txtCep.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 7).toString());
-        txtEndereco.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 8).toString());
-        txtNumero.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 9).toString());
-        txtComplemento.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 10).toString());
-        txtBairro.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 11).toString());
-        txtCidade.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 12).toString());
-        comboBoxUf.setSelectedItem(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 13).toString());
+        txtSenha.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 5).toString());
+        txtCargo.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 6).toString());
+        comboBoxNivelAcesso.setSelectedItem(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 7).toString());
+        txtTelefone.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 8).toString());
+        txtCelular.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 9).toString());
+        txtCep.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 10).toString());
+        txtEndereco.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 11).toString());
+        txtNumero.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 12).toString());
+        txtComplemento.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 13).toString());
+        txtBairro.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 14).toString());
+        txtCidade.setText(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 15).toString());
+        comboBoxUf.setSelectedItem(tableViewFuncionarios.getValueAt(tableViewFuncionarios.getSelectedRow(), 16).toString());
         
     }//GEN-LAST:event_tableViewFuncionariosMouseClicked
 
@@ -880,30 +892,33 @@ public class FrmFuncionario extends javax.swing.JFrame {
         */
         String nome = "%" + txtPesquisa.getText() + "%";
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.buscarClientePorNome(nome);
+        FuncionarioDAO dao = new FuncionarioDAO();
+        List<Funcionario> list = dao.buscarFuncionarioPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel) tableViewFuncionarios.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
+        for(Funcionario f : list){
             
             dados.addRow(new Object[]{
             
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
+            f.getId(),
+            f.getNome(),
+            f.getRg(),
+            f.getCpf(),
+            f.getEmail(),
+            f.getSenha(),
+            f.getCargo(),
+            f.getNivelAcesso(),
+            f.getTelefone(),
+            f.getCelular(),
+            f.getCep(),
+            f.getEndereco(),
+            f.getNumero(),
+            f.getComplemento(),
+            f.getBairro(),
+            f.getCidade(),
+            f.getUf()
             });
             
         }
