@@ -5,12 +5,13 @@
  */
 package view;
 
-import dao.ClienteDAO;
+
+import dao.FornecedorDAO;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Cliente;
+import model.Fornecedor;
 import util.uteis;
 
 /**
@@ -21,30 +22,29 @@ public class FrmFornecedor extends javax.swing.JFrame {
     
     public void listar(){
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.listarClientes();
+        FornecedorDAO dao = new FornecedorDAO();
+        List<Fornecedor> list = dao.listarFornecedores();
         
         DefaultTableModel dados = (DefaultTableModel) tableViewFornecedores.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
+        for(Fornecedor f : list){
             
             dados.addRow(new Object[]{
             
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
+            f.getId(),
+            f.getNome(),
+            f.getCnpj(),
+            f.getEmail(),
+            f.getTelefone(),
+            f.getCelular(),
+            f.getCep(),
+            f.getEndereco(),
+            f.getNumero(),
+            f.getComplemento(),
+            f.getBairro(),
+            f.getCidade(),
+            f.getUf()
             });
             
         }
@@ -54,7 +54,7 @@ public class FrmFornecedor extends javax.swing.JFrame {
     }
 
     /**
-     * Creates new form FrmCliente
+     * Creates new form FrmFornecedor
      */
     public FrmFornecedor() {
         initComponents();
@@ -608,30 +608,29 @@ public class FrmFornecedor extends javax.swing.JFrame {
         
         String nome = "%" + txtPesquisa.getText() + "%";
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.buscarClientePorNome(nome);
+        FornecedorDAO dao = new FornecedorDAO();
+        List<Fornecedor> list = dao.buscarFornecedorPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel) tableViewFornecedores.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
+        for(Fornecedor f : list){
             
             dados.addRow(new Object[]{
             
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
+            f.getId(),
+            f.getNome(),
+            f.getCnpj(),
+            f.getEmail(),
+            f.getTelefone(),
+            f.getCelular(),
+            f.getCep(),
+            f.getEndereco(),
+            f.getNumero(),
+            f.getComplemento(),
+            f.getBairro(),
+            f.getCidade(),
+            f.getUf()
             });
             
         }
@@ -647,11 +646,10 @@ public class FrmFornecedor extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         // BOTÃO SALVAR
 
-        Cliente obj = new Cliente();
+        Fornecedor obj = new Fornecedor();
 
         obj.setNome(txtNome.getText());
-        obj.setRg(txtCnpj.getText());
-        obj.setCpf(txtCpf.getText());
+        obj.setCnpj(txtCnpj.getText());
         obj.setEmail(txtEmail.getText());
         obj.setTelefone(txtTelefone.getText());
         obj.setCelular(txtCelular.getText());
@@ -663,8 +661,8 @@ public class FrmFornecedor extends javax.swing.JFrame {
         obj.setCidade(txtCidade.getText());
         obj.setUf(comboBoxUf.getSelectedItem().toString());
 
-        ClienteDAO dao = new ClienteDAO();
-        dao.cadastrarCliente(obj);
+        FornecedorDAO dao = new FornecedorDAO();
+        dao.cadastrarFornecedor(obj);
         uteis.limparTela(panelDadosPessoais);
 
 
@@ -673,11 +671,10 @@ public class FrmFornecedor extends javax.swing.JFrame {
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
          // BOTÃO EDITAR
 
-        Cliente obj = new Cliente();
+        Fornecedor obj = new Fornecedor();
 
         obj.setNome(txtNome.getText());
-        obj.setRg(txtCnpj.getText());
-        obj.setCpf(txtCpf.getText());
+        obj.setCnpj(txtCnpj.getText());
         obj.setEmail(txtEmail.getText());
         obj.setTelefone(txtTelefone.getText());
         obj.setCelular(txtCelular.getText());
@@ -691,8 +688,8 @@ public class FrmFornecedor extends javax.swing.JFrame {
         
         obj.setId(Integer.parseInt(txtCodigo.getText()));
 
-        ClienteDAO dao = new ClienteDAO();
-        dao.alterarCliente(obj);
+        FornecedorDAO dao = new FornecedorDAO();
+        dao.alterarFornecedor(obj);
         uteis.limparTela(panelDadosPessoais);
 
     }//GEN-LAST:event_btEditarActionPerformed
@@ -700,29 +697,28 @@ public class FrmFornecedor extends javax.swing.JFrame {
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
          // BOTÃO EXCLUIR
 
-        Cliente obj = new Cliente();
+        Fornecedor obj = new Fornecedor();
                 
         obj.setId(Integer.parseInt(txtCodigo.getText()));
 
-        ClienteDAO dao = new ClienteDAO();
-        dao.excluirCliente(obj);
+        FornecedorDAO dao = new FornecedorDAO();
+        dao.excluirFornecedor(obj);
         uteis.limparTela(panelDadosPessoais);
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        // Botão Buscar Cliente por nome
+        // Botão Buscar Fornecedor por nome
         String nome = txtNome.getText();
-        Cliente obj = new Cliente();
-        ClienteDAO dao = new ClienteDAO();
+        Fornecedor obj = new Fornecedor();
+        FornecedorDAO dao = new FornecedorDAO();
         
-        obj = dao.consultaCliente(nome);
+        obj = dao.consultaFornecedor(nome);
         
         // Exibir os dados do obj nos text fields
         if(obj.getNome() != null){
         txtCodigo.setText(String.valueOf(obj.getId()));
         txtNome.setText(obj.getNome());
-        txtCnpj.setText(obj.getRg());
-        txtCpf.setText(obj.getCpf());
+        txtCnpj.setText(obj.getCnpj());
         txtEmail.setText(obj.getEmail());
         txtTelefone.setText(obj.getTelefone());
         txtCelular.setText(obj.getCelular());
@@ -734,13 +730,13 @@ public class FrmFornecedor extends javax.swing.JFrame {
         txtCidade.setText(obj.getCidade());
         comboBoxUf.setSelectedItem(obj.getUf());
         } else {
-            JOptionPane.showMessageDialog(null, "Cliente não Encontrado");
+            JOptionPane.showMessageDialog(null, "Fornecedor não Encontrado");
         }
         
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // Chamada do Método Listar Lista para ao abrir a tela já carregar a lista de clientes
+        // Chamada do Método Listar Lista para ao abrir a tela já carregar a lista de Fornecedores
         
         listar();
     }//GEN-LAST:event_formWindowActivated
@@ -761,22 +757,21 @@ public class FrmFornecedor extends javax.swing.JFrame {
         txtCodigo.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 0).toString());
         txtNome.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 1).toString());
         txtCnpj.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 2).toString());
-        txtCpf.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 3).toString());
-        txtEmail.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 4).toString());
-        txtTelefone.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 5).toString());
-        txtCelular.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 6).toString());
-        txtCep.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 7).toString());
-        txtEndereco.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 8).toString());
-        txtNumero.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 9).toString());
-        txtComplemento.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 10).toString());
-        txtBairro.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 11).toString());
-        txtCidade.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 12).toString());
-        comboBoxUf.setSelectedItem(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 13).toString());
+        txtEmail.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 3).toString());
+        txtTelefone.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 4).toString());
+        txtCelular.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 5).toString());
+        txtCep.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 6).toString());
+        txtEndereco.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 7).toString());
+        txtNumero.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 8).toString());
+        txtComplemento.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 9).toString());
+        txtBairro.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 10).toString());
+        txtCidade.setText(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 11).toString());
+        comboBoxUf.setSelectedItem(tableViewFornecedores.getValueAt(tableViewFornecedores.getSelectedRow(), 12).toString());
         
     }//GEN-LAST:event_tableViewFornecedoresMouseClicked
 
     private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
-        // Método para enquanto vai digitando no txtpesquisar já vai fazendo a pesquisa nos clientes
+        // Método para enquanto vai digitando no txtpesquisar já vai fazendo a pesquisa nos Fornecedores
         
         /*
         É o mesmo método usado para buscar por nome quando aperta o botão pesquisar, só estamos usando
@@ -784,30 +779,29 @@ public class FrmFornecedor extends javax.swing.JFrame {
         */
         String nome = "%" + txtPesquisa.getText() + "%";
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.buscarClientePorNome(nome);
+        FornecedorDAO dao = new FornecedorDAO();
+        List<Fornecedor> list = dao.buscarFornecedorPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel) tableViewFornecedores.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
+        for(Fornecedor f : list){
             
             dados.addRow(new Object[]{
             
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
+            f.getId(),
+            f.getNome(),
+            f.getCnpj(),
+            f.getEmail(),
+            f.getTelefone(),
+            f.getCelular(),
+            f.getCep(),
+            f.getEndereco(),
+            f.getNumero(),
+            f.getComplemento(),
+            f.getBairro(),
+            f.getCidade(),
+            f.getUf()
             });
             
         }
@@ -816,8 +810,8 @@ public class FrmFornecedor extends javax.swing.JFrame {
     private void txtCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCepKeyPressed
         //Programacao do keypress para fazer a consulta após o usuário clicar no ENTER
 	if (evt.getKeyCode() == KeyEvent.VK_ENTER) { 
-         Cliente obj =  new Cliente();
-         ClienteDAO dao = new ClienteDAO();
+         Fornecedor obj =  new Fornecedor();
+         FornecedorDAO dao = new FornecedorDAO();
          obj = dao.buscaCep(txtCep.getText());
          
          txtEndereco.setText(obj.getEndereco());
