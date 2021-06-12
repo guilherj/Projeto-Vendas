@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionFactory;
 import model.Funcionario;
 import model.WebServiceCep;
+import view.FrmLogin;
 import view.FrmTelaInicial;
 
 /**
@@ -302,6 +303,7 @@ public class FuncionarioDAO {
         } else{
            // Falha no logon
            JOptionPane.showMessageDialog(null, "Falha no Logon - Dados Inválidos!");
+           new FrmLogin().setVisible(true);
            
         }
         
