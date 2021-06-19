@@ -8,7 +8,6 @@ package view;
 import dao.ClienteDAO;
 import dao.FornecedorDAO;
 import dao.ProdutoDAO;
-import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -25,35 +24,21 @@ public class FrmProduto extends javax.swing.JFrame {
     
     public void listar(){
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.listarClientes();
-        
-        DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
-        dados.setNumRows(0); //Zera a tabela
-        
-        for(Cliente c : list){
-            
-            dados.addRow(new Object[]{
-            
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
-            });
-            
-        }
-        
-        
+       ProdutoDAO dao = new ProdutoDAO();
+       List<Produto> lista = dao.listarProdutos();
+       DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
+       dados.setNumRows(0);
+       
+       for(Produto p: lista){
+           dados.addRow(new Object[]{
+           p.getId(),
+           p.getDescricao(),
+           p.getPreco(),
+           p.getQtdEstoque(),
+           p.getFornecedor().getNome()
+                   
+           });
+       }
         
     }
 
