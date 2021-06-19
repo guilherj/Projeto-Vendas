@@ -6,11 +6,13 @@
 package view;
 
 import dao.ClienteDAO;
+import dao.FornecedorDAO;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
+import model.Fornecedor;
 import util.uteis;
 
 /**
@@ -82,7 +84,7 @@ public class FrmProduto extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtQtdEstoque = new javax.swing.JTextField();
-        comboBoxFornecedor = new javax.swing.JComboBox<>();
+        comboBoxFornecedor = new javax.swing.JComboBox();
         btPesquisar = new javax.swing.JButton();
         panelConsultaClientes = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -170,7 +172,15 @@ public class FrmProduto extends javax.swing.JFrame {
         });
 
         comboBoxFornecedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboBoxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO", " " }));
+        comboBoxFornecedor.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                comboBoxFornecedorAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         comboBoxFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxFornecedorActionPerformed(evt);
@@ -235,7 +245,7 @@ public class FrmProduto extends javax.swing.JFrame {
                 .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(comboBoxFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados do Produto", panelDadosPessoais);
@@ -614,6 +624,19 @@ public class FrmProduto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPesquisaKeyPressed
 
+    private void comboBoxFornecedorAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_comboBoxFornecedorAncestorAdded
+        // Carregando o Objeto na ComboBox
+        
+        FornecedorDAO dao = new FornecedorDAO();
+        List<Fornecedor>list = dao.listarFornecedores();
+        comboBoxFornecedor.removeAll();
+        
+        for(Fornecedor f : list){
+            comboBoxFornecedor.addItem(f);
+        }
+        
+    }//GEN-LAST:event_comboBoxFornecedorAncestorAdded
+
     /**
      * @param args the command line arguments
      */
@@ -657,7 +680,7 @@ public class FrmProduto extends javax.swing.JFrame {
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btPesquisarConsulta;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JComboBox<String> comboBoxFornecedor;
+    private javax.swing.JComboBox comboBoxFornecedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
