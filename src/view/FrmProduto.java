@@ -466,26 +466,19 @@ public class FrmProduto extends javax.swing.JFrame {
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
          // BOTÃO EDITAR
 
-        Cliente obj = new Cliente();
-        
-//        obj.setNome(txtDescricao.getText());
-//        obj.setRg(txtRg.getText());
-//        obj.setCpf(txtCpf.getText());
-//        obj.setEmail(txtPreco.getText());
-//        obj.setTelefone(txtTelefone.getText());
-//        obj.setCelular(txtCelular.getText());
-//        obj.setCep(txtCep.getText());
-//        obj.setEndereco(txtQtdEstoque.getText());
-//        obj.setNumero(Integer.parseInt(txtNumero.getText()));
-//        obj.setComplemento(txtComplemento.getText());
-//        obj.setBairro(txtBairro.getText());
-//        obj.setCidade(txtCidade.getText());
-//        obj.setUf(comboBoxFornecedor.getSelectedItem().toString());
-        
+        Produto obj = new Produto();
         obj.setId(Integer.parseInt(txtCodigo.getText()));
-
-        ClienteDAO dao = new ClienteDAO();
-        dao.alterarCliente(obj);
+        obj.setDescricao(txtDescricao.getText());
+        obj.setPreco(Double.parseDouble(txtPreco.getText()));
+        obj.setQtdEstoque(Integer.parseInt(txtQtdEstoque.getText()));
+        
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor = (Fornecedor) comboBoxFornecedor.getSelectedItem();
+        
+        obj.setFornecedor(fornecedor);
+        
+        ProdutoDAO dao = new ProdutoDAO();
+        dao.alterar(obj);
         uteis.limparTela(panelDadosPessoais);
 
     }//GEN-LAST:event_btEditarActionPerformed
@@ -493,12 +486,12 @@ public class FrmProduto extends javax.swing.JFrame {
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
          // BOTÃO EXCLUIR
 
-        Cliente obj = new Cliente();
+        Produto obj = new Produto();
                 
         obj.setId(Integer.parseInt(txtCodigo.getText()));
 
-        ClienteDAO dao = new ClienteDAO();
-        dao.excluirCliente(obj);
+        ProdutoDAO dao = new ProdutoDAO();
+        dao.excluir(obj);
         uteis.limparTela(panelDadosPessoais);
     }//GEN-LAST:event_btExcluirActionPerformed
 
@@ -553,18 +546,27 @@ public class FrmProduto extends javax.swing.JFrame {
         */
         txtCodigo.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 0).toString());
         txtDescricao.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 1).toString());
-//        txtRg.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 2).toString());
-//        txtCpf.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 3).toString());
-//        txtPreco.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 4).toString());
-//        txtTelefone.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 5).toString());
-//        txtCelular.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 6).toString());
-//        txtCep.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 7).toString());
-//        txtQtdEstoque.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 8).toString());
-//        txtNumero.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 9).toString());
-//        txtComplemento.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 10).toString());
-//        txtBairro.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 11).toString());
-//        txtCidade.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 12).toString());
-//        comboBoxFornecedor.setSelectedItem(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 13).toString());
+        txtPreco.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 2).toString());
+        txtQtdEstoque.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 3).toString());
+        
+        /*
+        Para passar o objeto para a tela ao invés do texto, é necessário
+        instanciar o objeto da entidade, depois isntanciar um objeto dao, usar o método buscar por nome do dao e passar
+        como parâmetro o texto que estará na linha da tableView, e o objeto resultado dessa busca 
+        será passado para o objeto da entidade instanciado anteriormente.
+        
+        agora com a informação em mãos, é só remover quaisquer itens que possa estár na comboBox
+        e setar o objeto da entidade que foi encontrado.
+        
+        */
+        
+        Fornecedor fornecedor = new Fornecedor();
+        FornecedorDAO dao = new FornecedorDAO();
+        
+        fornecedor = dao.consultaFornecedor(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 4).toString());
+        
+        comboBoxFornecedor.removeAllItems();
+        comboBoxFornecedor.getModel().setSelectedItem(fornecedor);
         
     }//GEN-LAST:event_tableViewProdutosMouseClicked
 
