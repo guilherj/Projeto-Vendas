@@ -7,12 +7,14 @@ package view;
 
 import dao.ClienteDAO;
 import dao.FornecedorDAO;
+import dao.ProdutoDAO;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
 import model.Fornecedor;
+import model.Produto;
 import util.uteis;
 
 /**
@@ -458,24 +460,19 @@ public class FrmProduto extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         // BOTÃO SALVAR
 
-        Cliente obj = new Cliente();
-
-        obj.setNome(txtDescricao.getText());
-        obj.setRg(txtRg.getText());
-        obj.setCpf(txtCpf.getText());
-        obj.setEmail(txtPreco.getText());
-        obj.setTelefone(txtTelefone.getText());
-        obj.setCelular(txtCelular.getText());
-        obj.setCep(txtCep.getText());
-        obj.setEndereco(txtQtdEstoque.getText());
-        obj.setNumero(Integer.parseInt(txtNumero.getText()));
-        obj.setComplemento(txtComplemento.getText());
-        obj.setBairro(txtBairro.getText());
-        obj.setCidade(txtCidade.getText());
-        obj.setUf(comboBoxFornecedor.getSelectedItem().toString());
-
-        ClienteDAO dao = new ClienteDAO();
-        dao.cadastrarCliente(obj);
+       Produto obj = new Produto();
+       
+       obj.setDescricao(txtDescricao.getText());
+       obj.setPreco(Double.parseDouble(txtPreco.getText()));
+       obj.setQtdEstoque(Integer.parseInt(txtQtdEstoque.getText()));
+       
+       Fornecedor fornecedor = new Fornecedor();
+       
+       fornecedor = (Fornecedor) comboBoxFornecedor.getSelectedItem();
+       obj.setFornecedor(fornecedor);
+       
+        ProdutoDAO dao = new ProdutoDAO();
+        dao.cadastrar(obj);
         uteis.limparTela(panelDadosPessoais);
 
 
@@ -485,20 +482,20 @@ public class FrmProduto extends javax.swing.JFrame {
          // BOTÃO EDITAR
 
         Cliente obj = new Cliente();
-
-        obj.setNome(txtDescricao.getText());
-        obj.setRg(txtRg.getText());
-        obj.setCpf(txtCpf.getText());
-        obj.setEmail(txtPreco.getText());
-        obj.setTelefone(txtTelefone.getText());
-        obj.setCelular(txtCelular.getText());
-        obj.setCep(txtCep.getText());
-        obj.setEndereco(txtQtdEstoque.getText());
-        obj.setNumero(Integer.parseInt(txtNumero.getText()));
-        obj.setComplemento(txtComplemento.getText());
-        obj.setBairro(txtBairro.getText());
-        obj.setCidade(txtCidade.getText());
-        obj.setUf(comboBoxFornecedor.getSelectedItem().toString());
+        
+//        obj.setNome(txtDescricao.getText());
+//        obj.setRg(txtRg.getText());
+//        obj.setCpf(txtCpf.getText());
+//        obj.setEmail(txtPreco.getText());
+//        obj.setTelefone(txtTelefone.getText());
+//        obj.setCelular(txtCelular.getText());
+//        obj.setCep(txtCep.getText());
+//        obj.setEndereco(txtQtdEstoque.getText());
+//        obj.setNumero(Integer.parseInt(txtNumero.getText()));
+//        obj.setComplemento(txtComplemento.getText());
+//        obj.setBairro(txtBairro.getText());
+//        obj.setCidade(txtCidade.getText());
+//        obj.setUf(comboBoxFornecedor.getSelectedItem().toString());
         
         obj.setId(Integer.parseInt(txtCodigo.getText()));
 
@@ -532,19 +529,19 @@ public class FrmProduto extends javax.swing.JFrame {
         if(obj.getNome() != null){
         txtCodigo.setText(String.valueOf(obj.getId()));
         txtDescricao.setText(obj.getNome());
-        txtRg.setText(obj.getRg());
-        txtCpf.setText(obj.getCpf());
-        txtPreco.setText(obj.getEmail());
-        txtTelefone.setText(obj.getTelefone());
-        txtCelular.setText(obj.getCelular());
-        txtCep.setText(obj.getCep());
-        txtQtdEstoque.setText(obj.getEndereco());
-        txtNumero.setText(String.valueOf(obj.getNumero()));
-        txtComplemento.setText(obj.getComplemento());
-        txtBairro.setText(obj.getBairro());
-        txtCidade.setText(obj.getCidade());
-        comboBoxFornecedor.setSelectedItem(obj.getUf());
-        } else {
+//        txtRg.setText(obj.getRg());
+//        txtCpf.setText(obj.getCpf());
+//        txtPreco.setText(obj.getEmail());
+//        txtTelefone.setText(obj.getTelefone());
+//        txtCelular.setText(obj.getCelular());
+//        txtCep.setText(obj.getCep());
+//        txtQtdEstoque.setText(obj.getEndereco());
+//        txtNumero.setText(String.valueOf(obj.getNumero()));
+//        txtComplemento.setText(obj.getComplemento());
+//        txtBairro.setText(obj.getBairro());
+//        txtCidade.setText(obj.getCidade());
+//        comboBoxFornecedor.setSelectedItem(obj.getUf());
+//        } else {
             JOptionPane.showMessageDialog(null, "Cliente não Encontrado");
         }
         
@@ -571,18 +568,18 @@ public class FrmProduto extends javax.swing.JFrame {
         */
         txtCodigo.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 0).toString());
         txtDescricao.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 1).toString());
-        txtRg.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 2).toString());
-        txtCpf.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 3).toString());
-        txtPreco.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 4).toString());
-        txtTelefone.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 5).toString());
-        txtCelular.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 6).toString());
-        txtCep.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 7).toString());
-        txtQtdEstoque.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 8).toString());
-        txtNumero.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 9).toString());
-        txtComplemento.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 10).toString());
-        txtBairro.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 11).toString());
-        txtCidade.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 12).toString());
-        comboBoxFornecedor.setSelectedItem(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 13).toString());
+//        txtRg.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 2).toString());
+//        txtCpf.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 3).toString());
+//        txtPreco.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 4).toString());
+//        txtTelefone.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 5).toString());
+//        txtCelular.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 6).toString());
+//        txtCep.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 7).toString());
+//        txtQtdEstoque.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 8).toString());
+//        txtNumero.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 9).toString());
+//        txtComplemento.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 10).toString());
+//        txtBairro.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 11).toString());
+//        txtCidade.setText(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 12).toString());
+//        comboBoxFornecedor.setSelectedItem(tableViewProdutos.getValueAt(tableViewProdutos.getSelectedRow(), 13).toString());
         
     }//GEN-LAST:event_tableViewProdutosMouseClicked
 
