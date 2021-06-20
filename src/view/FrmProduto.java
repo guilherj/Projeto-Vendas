@@ -406,31 +406,21 @@ public class FrmProduto extends javax.swing.JFrame {
         
         String nome = "%" + txtPesquisa.getText() + "%";
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.buscarClientePorNome(nome);
+        ProdutoDAO dao = new ProdutoDAO();
+        List<Produto> lista = dao.listarProdutosPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
-            
-            dados.addRow(new Object[]{
-            
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
-            });
+       for(Produto p: lista){
+           dados.addRow(new Object[]{
+           p.getId(),
+           p.getDescricao(),
+           p.getPreco(),
+           p.getQtdEstoque(),
+           p.getFornecedor().getNome()
+                   
+           });
             
         }
         
@@ -571,7 +561,7 @@ public class FrmProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_tableViewProdutosMouseClicked
 
     private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
-        // Método para enquanto vai digitando no txtpesquisar já vai fazendo a pesquisa nos clientes
+        // Método para enquanto vai digitando no txtpesquisar já vai fazendo a pesquisa
         
         /*
         É o mesmo método usado para buscar por nome quando aperta o botão pesquisar, só estamos usando
@@ -579,31 +569,21 @@ public class FrmProduto extends javax.swing.JFrame {
         */
         String nome = "%" + txtPesquisa.getText() + "%";
         
-        ClienteDAO dao = new ClienteDAO();
-        List<Cliente> list = dao.buscarClientePorNome(nome);
+        ProdutoDAO dao = new ProdutoDAO();
+        List<Produto> lista = dao.listarProdutosPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
         dados.setNumRows(0); //Zera a tabela
         
-        for(Cliente c : list){
-            
-            dados.addRow(new Object[]{
-            
-            c.getId(),
-            c.getNome(),
-            c.getRg(),
-            c.getCpf(),
-            c.getEmail(),
-            c.getTelefone(),
-            c.getCelular(),
-            c.getCep(),
-            c.getEndereco(),
-            c.getNumero(),
-            c.getComplemento(),
-            c.getBairro(),
-            c.getCidade(),
-            c.getUf()
-            });
+        for(Produto p: lista){
+           dados.addRow(new Object[]{
+           p.getId(),
+           p.getDescricao(),
+           p.getPreco(),
+           p.getQtdEstoque(),
+           p.getFornecedor().getNome()
+                   
+           });
             
         }
     }//GEN-LAST:event_txtPesquisaKeyPressed
