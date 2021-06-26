@@ -8,6 +8,8 @@ package view;
 import dao.FornecedorDAO;
 import dao.ProdutoDAO;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,27 +22,27 @@ import util.uteis;
  * @author Guilherme
  */
 public class FrmPDV extends javax.swing.JFrame {
-    
-    public void listar(){
-        
-       ProdutoDAO dao = new ProdutoDAO();
-       List<Produto> lista = dao.listarProdutos();
-       DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
-       dados.setNumRows(0);
-            
-       
-       for(Produto p: lista){
-           dados.addRow(new Object[]{
-           p.getId(),
-           p.getDescricao(),
-           uteis.formatoDecimal(p.getPreco()),
-           p.getQtdEstoque(),
-           p.getFornecedor().getNome()
-                   
-           });
-       }
-        
-    }
+//    
+//    public void listar(){
+//        
+//       ProdutoDAO dao = new ProdutoDAO();
+//       List<Produto> lista = dao.listarProdutos();
+//     //  DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
+//       dados.setNumRows(0);
+//            
+//       
+//       for(Produto p: lista){
+//           dados.addRow(new Object[]{
+//           p.getId(),
+//           p.getDescricao(),
+//           uteis.formatoDecimal(p.getPreco()),
+//           p.getQtdEstoque(),
+//           p.getFornecedor().getNome()
+//                   
+//           });
+//       }
+//        
+//    }
 
     /**
      * Creates new form FrmCliente
@@ -148,8 +150,10 @@ public class FrmPDV extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Data:");
+        jLabel5.setText("Emissão:");
 
+        txtData.setEditable(false);
+        txtData.setBackground(new java.awt.Color(255, 255, 255));
         txtData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,13 +196,13 @@ public class FrmPDV extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btPesquisarCliente)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(58, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -428,41 +432,22 @@ public class FrmPDV extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
-         // BOTÃO EDITAR
-
-        Produto obj = new Produto();
-        obj.setId(Integer.parseInt(txtCodigo.getText()));
-        obj.setDescricao(txtDescricao.getText());
-        obj.setPreco(Double.parseDouble(txtPreco.getText().replaceAll(",", ".")));
-        obj.setQtdEstoque(Integer.parseInt(txtQtdEstoque.getText()));
         
-        Fornecedor fornecedor = new Fornecedor();
-        fornecedor = (Fornecedor) comboBoxFornecedor.getSelectedItem();
-        
-        obj.setFornecedor(fornecedor);
-        
-        ProdutoDAO dao = new ProdutoDAO();
-        dao.alterar(obj);
-        uteis.limparTela(panelDadosPessoais);
 
     }//GEN-LAST:event_btPagamentoActionPerformed
 
     private void btCancelarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarVendaActionPerformed
-         // BOTÃO EXCLUIR
-
-        Produto obj = new Produto();
-                
-        obj.setId(Integer.parseInt(txtCodigo.getText()));
-
-        ProdutoDAO dao = new ProdutoDAO();
-        dao.excluir(obj);
-        uteis.limparTela(panelDadosPessoais);
+        
     }//GEN-LAST:event_btCancelarVendaActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // Chamada do Método Listar Lista para ao abrir a tela já carregar a lista de clientes
+        // Carregar Data atual do micro
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
+        String data = sdf.format(date);
+        txtData.setText(data);
         
-        listar();
+        
     }//GEN-LAST:event_formWindowActivated
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
@@ -474,32 +459,32 @@ public class FrmPDV extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDataActionPerformed
 
     private void btPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarClienteActionPerformed
-        // Botão Buscar Cliente por nome
-        String nome = txtNome.getText();
-        Cliente obj = new Cliente();
-        ClienteDAO dao = new ClienteDAO();
-
-        obj = dao.consultaCliente(nome);
-
-        // Exibir os dados do obj nos text fields
-        if(obj.getNome() != null){
-            txtCodigo.setText(String.valueOf(obj.getId()));
-            txtNome.setText(obj.getNome());
-            txtRg.setText(obj.getRg());
-            txtCpf.setText(obj.getCpf());
-            txtEmail.setText(obj.getEmail());
-            txtTelefone.setText(obj.getTelefone());
-            txtCelular.setText(obj.getCelular());
-            txtCep.setText(obj.getCep());
-            txtEndereco.setText(obj.getEndereco());
-            txtNumero.setText(String.valueOf(obj.getNumero()));
-            txtComplemento.setText(obj.getComplemento());
-            txtBairro.setText(obj.getBairro());
-            txtCidade.setText(obj.getCidade());
-            comboBoxUf.setSelectedItem(obj.getUf());
-        } else {
-            JOptionPane.showMessageDialog(null, "Cliente não Encontrado");
-        }
+//        // Botão Buscar Cliente por nome
+//        String nome = txtNome.getText();
+//        Cliente obj = new Cliente();
+//        ClienteDAO dao = new ClienteDAO();
+//
+//        obj = dao.consultaCliente(nome);
+//
+//        // Exibir os dados do obj nos text fields
+//        if(obj.getNome() != null){
+//            txtCodigo.setText(String.valueOf(obj.getId()));
+//            txtNome.setText(obj.getNome());
+//            txtRg.setText(obj.getRg());
+//            txtCpf.setText(obj.getCpf());
+//            txtEmail.setText(obj.getEmail());
+//            txtTelefone.setText(obj.getTelefone());
+//            txtCelular.setText(obj.getCelular());
+//            txtCep.setText(obj.getCep());
+//            txtEndereco.setText(obj.getEndereco());
+//            txtNumero.setText(String.valueOf(obj.getNumero()));
+//            txtComplemento.setText(obj.getComplemento());
+//            txtBairro.setText(obj.getBairro());
+//            txtCidade.setText(obj.getCidade());
+//            comboBoxUf.setSelectedItem(obj.getUf());
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Cliente não Encontrado");
+//        }
 
     }//GEN-LAST:event_btPesquisarClienteActionPerformed
 
