@@ -216,5 +216,38 @@ public class ProdutoDAO {
 
         }
     }
+    
+    //Método Consutar produto por Código
+    public Produto consultaProdutoPorCodigo(int id) {
+
+        try {
+
+            
+            // 1º Passo: Criar, organizar e executar o comando SQL
+            String sql = "SELECT * from tb_produtos where id=?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            
+            Produto obj = new Produto();
+            
+            if(rs.next()) {
+                
+                obj.setId(rs.getInt("id"));
+                obj.setDescricao(rs.getString("descricao"));
+                obj.setPreco(rs.getDouble("preco"));
+                obj.setQtdEstoque(rs.getInt("qtd_estoque"));
+ 
+            }
+
+            return obj;
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
+            return null;
+
+        }
+    }
 
 }
