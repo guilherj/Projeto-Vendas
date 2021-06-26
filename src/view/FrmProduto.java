@@ -5,13 +5,12 @@
  */
 package view;
 
-import dao.ClienteDAO;
 import dao.FornecedorDAO;
 import dao.ProdutoDAO;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Cliente;
 import model.Fornecedor;
 import model.Produto;
 import util.uteis;
@@ -28,12 +27,13 @@ public class FrmProduto extends javax.swing.JFrame {
        List<Produto> lista = dao.listarProdutos();
        DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
        dados.setNumRows(0);
+            
        
        for(Produto p: lista){
            dados.addRow(new Object[]{
            p.getId(),
            p.getDescricao(),
-           p.getPreco(),
+           uteis.formatoDecimal(p.getPreco()),
            p.getQtdEstoque(),
            p.getFornecedor().getNome()
                    
@@ -166,6 +166,11 @@ public class FrmProduto extends javax.swing.JFrame {
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        comboBoxFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboBoxFornecedorMouseClicked(evt);
             }
         });
         comboBoxFornecedor.addActionListener(new java.awt.event.ActionListener() {
@@ -411,12 +416,13 @@ public class FrmProduto extends javax.swing.JFrame {
         
         DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
         dados.setNumRows(0); //Zera a tabela
+               
         
        for(Produto p: lista){
            dados.addRow(new Object[]{
            p.getId(),
            p.getDescricao(),
-           p.getPreco(),
+           uteis.formatoDecimal(p.getPreco()),
            p.getQtdEstoque(),
            p.getFornecedor().getNome()
                    
@@ -438,7 +444,7 @@ public class FrmProduto extends javax.swing.JFrame {
        Produto obj = new Produto();
        
        obj.setDescricao(txtDescricao.getText());
-       obj.setPreco(Double.parseDouble(txtPreco.getText()));
+       obj.setPreco(Double.parseDouble(txtPreco.getText().replaceAll(",", ".")));
        obj.setQtdEstoque(Integer.parseInt(txtQtdEstoque.getText()));
        
        Fornecedor fornecedor = new Fornecedor();
@@ -459,7 +465,7 @@ public class FrmProduto extends javax.swing.JFrame {
         Produto obj = new Produto();
         obj.setId(Integer.parseInt(txtCodigo.getText()));
         obj.setDescricao(txtDescricao.getText());
-        obj.setPreco(Double.parseDouble(txtPreco.getText()));
+        obj.setPreco(Double.parseDouble(txtPreco.getText().replaceAll(",", ".")));
         obj.setQtdEstoque(Integer.parseInt(txtQtdEstoque.getText()));
         
         Fornecedor fornecedor = new Fornecedor();
@@ -486,31 +492,31 @@ public class FrmProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-        // Botão Buscar Cliente por nome
+        // Botão Buscar Produto por nome
         String nome = txtDescricao.getText();
-        Cliente obj = new Cliente();
-        ClienteDAO dao = new ClienteDAO();
+        Produto obj = new Produto();
+        ProdutoDAO dao = new ProdutoDAO();
+                        
+        obj = dao.consultaProduto(nome);
+        comboBoxFornecedor.removeAllItems();
         
-        obj = dao.consultaCliente(nome);
+       
         
         // Exibir os dados do obj nos text fields
-        if(obj.getNome() != null){
+        if(obj.getDescricao()!= null){
         txtCodigo.setText(String.valueOf(obj.getId()));
-        txtDescricao.setText(obj.getNome());
-//        txtRg.setText(obj.getRg());
-//        txtCpf.setText(obj.getCpf());
-//        txtPreco.setText(obj.getEmail());
-//        txtTelefone.setText(obj.getTelefone());
-//        txtCelular.setText(obj.getCelular());
-//        txtCep.setText(obj.getCep());
-//        txtQtdEstoque.setText(obj.getEndereco());
-//        txtNumero.setText(String.valueOf(obj.getNumero()));
-//        txtComplemento.setText(obj.getComplemento());
-//        txtBairro.setText(obj.getBairro());
-//        txtCidade.setText(obj.getCidade());
-//        comboBoxFornecedor.setSelectedItem(obj.getUf());
-//        } else {
-            JOptionPane.showMessageDialog(null, "Cliente não Encontrado");
+        txtDescricao.setText(obj.getDescricao());
+        txtPreco.setText(String.valueOf(uteis.formatoDecimal(obj.getPreco())));
+        txtQtdEstoque.setText(String.valueOf(obj.getQtdEstoque()));
+        
+        Fornecedor fornecedor = new Fornecedor();
+        FornecedorDAO fdao = new FornecedorDAO();
+        
+        fornecedor = fdao.consultaFornecedor(obj.getFornecedor().getNome());
+        comboBoxFornecedor.getModel().setSelectedItem(fornecedor);
+       
+        } else {
+            JOptionPane.showMessageDialog(null, "Produto não Encontrado");
         }
         
     }//GEN-LAST:event_btPesquisarActionPerformed
@@ -574,12 +580,12 @@ public class FrmProduto extends javax.swing.JFrame {
         
         DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
         dados.setNumRows(0); //Zera a tabela
-        
+                
         for(Produto p: lista){
            dados.addRow(new Object[]{
            p.getId(),
            p.getDescricao(),
-           p.getPreco(),
+           uteis.formatoDecimal(p.getPreco()),
            p.getQtdEstoque(),
            p.getFornecedor().getNome()
                    
@@ -600,6 +606,17 @@ public class FrmProduto extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_comboBoxFornecedorAncestorAdded
+
+    private void comboBoxFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxFornecedorMouseClicked
+        // Evento para carregar a comboBox ao clicar no Mouse
+        FornecedorDAO dao = new FornecedorDAO();
+        List<Fornecedor> list = dao.listarFornecedores();
+        comboBoxFornecedor.removeAllItems();
+        
+        for(Fornecedor f : list){
+            comboBoxFornecedor.addItem(f);
+        }
+    }//GEN-LAST:event_comboBoxFornecedorMouseClicked
 
     /**
      * @param args the command line arguments

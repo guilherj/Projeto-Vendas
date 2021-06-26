@@ -178,5 +178,43 @@ public class ProdutoDAO {
 
         }
     }
+    
+    //Método Consutar produto por nome
+    public Produto consultaProduto(String nome) {
+
+        try {
+
+            
+            // 1º Passo: Criar, organizar e executar o comando SQL
+            String sql = "SELECT p.id, p.descricao, p.preco, p.qtd_estoque, f.nome FROM tb_produtos as p "
+                    + "INNER JOIN tb_fornecedores f ON(p.for_id = f.id) WHERE p.descricao=?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, nome);
+            ResultSet rs = st.executeQuery();
+            
+            Produto obj = new Produto();
+            Fornecedor f = new Fornecedor();
+
+            if(rs.next()) {
+                
+                obj.setId(rs.getInt("p.id"));
+                obj.setDescricao(rs.getString("p.descricao"));
+                obj.setPreco(rs.getDouble("p.preco"));
+                obj.setQtdEstoque(rs.getInt("p.qtd_estoque"));
+
+                f.setNome(rs.getString("f.nome"));
+                obj.setFornecedor(f);
+                
+            }
+
+            return obj;
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
+            return null;
+
+        }
+    }
 
 }
