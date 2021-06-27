@@ -8,6 +8,7 @@ package view;
 import dao.ClienteDAO;
 import dao.FornecedorDAO;
 import dao.ProdutoDAO;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -25,33 +26,18 @@ import util.uteis;
  * @author Guilherme
  */
 public class FrmPDV extends javax.swing.JFrame {
-//    
-//    public void listar(){
-//        
-//       ProdutoDAO dao = new ProdutoDAO();
-//       List<Produto> lista = dao.listarProdutos();
-//     //  DefaultTableModel dados = (DefaultTableModel) tableViewProdutos.getModel();
-//       dados.setNumRows(0);
-//            
-//       
-//       for(Produto p: lista){
-//           dados.addRow(new Object[]{
-//           p.getId(),
-//           p.getDescricao(),
-//           uteis.formatoDecimal(p.getPreco()),
-//           p.getQtdEstoque(),
-//           p.getFornecedor().getNome()
-//                   
-//           });
-//       }
-//        
-//    }
+
+    private double total, preco, subTotal;
+    private int qtd;
+    
+    DefaultTableModel carrinho;
 
     /**
      * Creates new form FrmCliente
      */
     public FrmPDV() {
         initComponents();
+        this.getContentPane().setBackground(Color.WHITE);
     }
 
     /**
@@ -86,6 +72,7 @@ public class FrmPDV extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtQtd = new javax.swing.JTextField();
         btPesquisarProduto = new javax.swing.JButton();
+        btremoveItem = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         txtTotalVenda = new javax.swing.JTextField();
@@ -298,6 +285,14 @@ public class FrmPDV extends javax.swing.JFrame {
             }
         });
 
+        btremoveItem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btremoveItem.setText("Remover Item");
+        btremoveItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btremoveItemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -315,19 +310,19 @@ public class FrmPDV extends javax.swing.JFrame {
                     .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 46, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(189, 189, 189)
-                        .addComponent(btAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btremoveItem, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -349,7 +344,9 @@ public class FrmPDV extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(btAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btAddItem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btremoveItem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
 
@@ -503,7 +500,36 @@ public class FrmPDV extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecoActionPerformed
 
     private void btAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddItemActionPerformed
-        // TODO add your handling code here:
+        // Botão add Item
+        
+        qtd = Integer.parseInt(txtQtd.getText());
+        preco = Double.parseDouble(txtPreco.getText().replaceAll(",", "."));
+        
+        subTotal = preco * qtd;
+        
+        total = total + subTotal;
+        txtTotalVenda.setText(String.valueOf(uteis.formatoDecimal(total)));
+        
+        //Adicionar produtos no carrinho
+        
+        carrinho = (DefaultTableModel) tabelaPDV.getModel();
+        
+        carrinho.addRow(new Object[]{
+            
+            txtCodigo.getText(),
+            txtDescricao.getText(),
+            txtQtd.getText(),
+            txtPreco.getText(),
+            uteis.formatoDecimal(subTotal)
+            
+            
+        });
+        
+        txtCodigo.setText("");
+        txtDescricao.setText("");
+        txtPreco.setText("");
+        txtQtd.setText("");
+        
     }//GEN-LAST:event_btAddItemActionPerformed
 
     private void txtQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtdActionPerformed
@@ -511,7 +537,8 @@ public class FrmPDV extends javax.swing.JFrame {
     }//GEN-LAST:event_txtQtdActionPerformed
 
     private void btPesquisarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarProdutoActionPerformed
-        // TODO add your handling code here:
+        
+            
     }//GEN-LAST:event_btPesquisarProdutoActionPerformed
 
     private void txtTotalVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalVendaActionPerformed
@@ -550,6 +577,29 @@ public class FrmPDV extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_txtCodigoKeyPressed
+
+    private void btremoveItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btremoveItemActionPerformed
+        // Método para remover Item
+        
+        double subTotal;
+        
+        //Pega o valor em txt da linha selecionada, converte para double e atribui para variavel subTotal
+        subTotal = Double.parseDouble(tabelaPDV.getValueAt(tabelaPDV.getSelectedRow(), 4).toString().replaceAll(",", "."));
+        
+        
+        /*
+        Pega a variavel total que está recebendo o total da compra em outro trecho da classe e subtrai o valor
+        do item selecionado na tabela e que foi atribuido a variavel subTotal.
+        */
+        total-= subTotal;
+        
+        //Remove a linha selecionada da tabela
+        carrinho.removeRow(tabelaPDV.getSelectedRow());
+        
+        // Joga na TextField totalVenda o novo valor da variavel total
+        txtTotalVenda.setText(String.valueOf(uteis.formatoDecimal(total)));
+        
+    }//GEN-LAST:event_btremoveItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -599,6 +649,7 @@ public class FrmPDV extends javax.swing.JFrame {
     private javax.swing.JButton btPagamento;
     private javax.swing.JButton btPesquisarCliente;
     private javax.swing.JButton btPesquisarProduto;
+    private javax.swing.JButton btremoveItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;

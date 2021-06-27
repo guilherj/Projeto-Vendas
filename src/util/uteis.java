@@ -28,12 +28,22 @@ public class uteis {
         }
     }
     
-    // Método para Definir máscara de 2 casas decimais ao listar um valor double nos TextFields
+    // Método para Definir máscara de 2 casas decimais com "," e com saida do tipo string (Ideal para exibir os valores nas textFiels)
     public static String formatoDecimal(double valor){
         DecimalFormat formato = new DecimalFormat("0.00");
         formato.setMaximumFractionDigits(2);
         String texto = formato.format(valor);
         return texto;
     }
+    
+    //Método para Definir máscara de 2 casas decimais com saida do tipo double
+    public static double doubleDoisDecimais(double valor) {
+    DecimalFormat formato = new DecimalFormat("0.00");      
+    String string = formato.format(valor);
+    String[] part = string.split("[,]");
+    String string2 = part[0]+"."+part[1];
+    double preco = Double.parseDouble(string2);
+    return preco;
+}
     
 }
