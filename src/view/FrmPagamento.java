@@ -5,6 +5,9 @@
  */
 package view;
 
+import javax.swing.JTextField;
+import util.uteis;
+
 /**
  *
  * @author Guilherme
@@ -17,6 +20,8 @@ public class FrmPagamento extends javax.swing.JFrame {
     public FrmPagamento() {
         initComponents();
     }
+  
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -216,7 +221,47 @@ public class FrmPagamento extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalActionPerformed
 
     private void btFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarVendaActionPerformed
-        // TODO add your handling code here:
+        // Botão Finalizar Venda
+        
+        double pcartao, pcheque, pdinheiro, totalPago, totalVenda, troco;
+        
+        // Troco para forma de pagamento em Dinheiro
+        if((txtDinheiro != null) || (txtCartao == null) || (txtCheque == null)){
+            pdinheiro = Double.parseDouble(txtDinheiro.getText());
+                        
+            totalVenda = Double.parseDouble(txtTotal.getText().replaceAll(",", "."));
+            
+            //Calcular Total e Troco
+            totalPago = pdinheiro;
+            
+            troco = totalPago - totalVenda;
+            txtTroco.setText(uteis.formatoDecimal(troco));
+            
+            // Troco para forma de pagamento em Cartão
+        } else if((txtDinheiro == null) || (txtCartao != null) || (txtCheque == null)){
+            pcartao = Double.parseDouble(txtCartao.getText());
+                        
+            totalVenda = Double.parseDouble(txtTotal.getText().replaceAll(",", "."));
+            
+            //Calcular Total e Troco
+            totalPago = pcartao;
+            
+            troco = totalPago - totalVenda;
+            txtTroco.setText(uteis.formatoDecimal(troco));
+            
+            // Troco para forma de pagamento em Cheque
+        }else if((txtDinheiro == null) || (txtCartao == null) || (txtCheque != null)){
+            pcheque = Double.parseDouble(txtCheque.getText());
+                        
+            totalVenda = Double.parseDouble(txtTotal.getText().replaceAll(",", "."));
+            
+            //Calcular Total e Troco
+            totalPago = pcheque;
+            
+            troco = totalPago - totalVenda;
+            txtTroco.setText(uteis.formatoDecimal(troco));
+        }
+        
     }//GEN-LAST:event_btFinalizarVendaActionPerformed
 
     /**
@@ -266,7 +311,7 @@ public class FrmPagamento extends javax.swing.JFrame {
     private javax.swing.JTextField txtCartao;
     private javax.swing.JTextField txtCheque;
     private javax.swing.JTextField txtDinheiro;
-    private javax.swing.JTextField txtTotal;
+    public javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtTroco;
     // End of variables declaration//GEN-END:variables
 }

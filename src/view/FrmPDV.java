@@ -40,6 +40,31 @@ public class FrmPDV extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+   
+    public double getPreco() {
+        return preco;
+    }
+
+   
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+
+    public int getQtd() {
+        return qtd;
+    }
+
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
+    }
+    
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -450,7 +475,11 @@ public class FrmPDV extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
-
+        // Botão de Pagamento
+        FrmPagamento telaPagamento = new FrmPagamento();
+        telaPagamento.txtTotal.setText(uteis.formatoDecimal(total));
+        telaPagamento.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_btPagamentoActionPerformed
 
@@ -501,6 +530,7 @@ public class FrmPDV extends javax.swing.JFrame {
 
     private void btAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddItemActionPerformed
         // Botão add Item
+        
         
         qtd = Integer.parseInt(txtQtd.getText());
         preco = Double.parseDouble(txtPreco.getText().replaceAll(",", "."));
