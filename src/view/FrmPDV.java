@@ -38,6 +38,7 @@ public class FrmPDV extends javax.swing.JFrame {
     public FrmPDV() {
         initComponents();
         this.getContentPane().setBackground(Color.WHITE);
+        this.qtd = 0;
     }
 
     public double getTotal() {
@@ -531,8 +532,13 @@ public class FrmPDV extends javax.swing.JFrame {
     private void btAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddItemActionPerformed
         // Botão add Item
         
+        if(txtQtd.getText().isEmpty()){
+            txtQtd.setText("1");
+            qtd = Integer.parseInt(txtQtd.getText());            
         
-        qtd = Integer.parseInt(txtQtd.getText());
+        } else {
+            qtd = Integer.parseInt(txtQtd.getText());
+        }
         preco = Double.parseDouble(txtPreco.getText().replaceAll(",", "."));
         
         subTotal = preco * qtd;

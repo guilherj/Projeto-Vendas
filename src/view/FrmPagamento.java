@@ -20,8 +20,6 @@ public class FrmPagamento extends javax.swing.JFrame {
     public FrmPagamento() {
         initComponents();
     }
-  
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -198,6 +196,7 @@ public class FrmPagamento extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtDinheiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDinheiroActionPerformed
@@ -222,46 +221,32 @@ public class FrmPagamento extends javax.swing.JFrame {
 
     private void btFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarVendaActionPerformed
         // Botão Finalizar Venda
-        
-        double pcartao, pcheque, pdinheiro, totalPago, totalVenda, troco;
-        
-        // Troco para forma de pagamento em Dinheiro
-        if((txtDinheiro != null) || (txtCartao == null) || (txtCheque == null)){
-            pdinheiro = Double.parseDouble(txtDinheiro.getText());
-                        
-            totalVenda = Double.parseDouble(txtTotal.getText().replaceAll(",", "."));
+
+        double pCartao, pCheque, pDinheiro, totalPago=0.0, totalVenda, troco;
+
+        if (((txtDinheiro.getText().isEmpty())) && (txtCartao.getText().length()>0) && (txtCheque.getText().isEmpty())) {
+          
+            pCartao = Double.parseDouble(txtCartao.getText().replaceAll(",", "."));
+            totalPago = pCartao;
             
-            //Calcular Total e Troco
-            totalPago = pdinheiro;
+        } else if (((txtDinheiro.getText().length()>0)) && (txtCartao.getText().isEmpty()) && (txtCheque.getText().isEmpty())) {
+          
+           pDinheiro = Double.parseDouble(txtDinheiro.getText().replaceAll(",", ".")); 
+           totalPago = pDinheiro;
             
-            troco = totalPago - totalVenda;
-            txtTroco.setText(uteis.formatoDecimal(troco));
+        } else if (((txtDinheiro.getText().isEmpty())) && (txtCartao.getText().isEmpty()) && (txtCheque.getText().length()>0)) {
             
-            // Troco para forma de pagamento em Cartão
-        } else if((txtDinheiro == null) || (txtCartao != null) || (txtCheque == null)){
-            pcartao = Double.parseDouble(txtCartao.getText());
-                        
-            totalVenda = Double.parseDouble(txtTotal.getText().replaceAll(",", "."));
-            
-            //Calcular Total e Troco
-            totalPago = pcartao;
-            
-            troco = totalPago - totalVenda;
-            txtTroco.setText(uteis.formatoDecimal(troco));
-            
-            // Troco para forma de pagamento em Cheque
-        }else if((txtDinheiro == null) || (txtCartao == null) || (txtCheque != null)){
-            pcheque = Double.parseDouble(txtCheque.getText());
-                        
-            totalVenda = Double.parseDouble(txtTotal.getText().replaceAll(",", "."));
-            
-            //Calcular Total e Troco
-            totalPago = pcheque;
-            
-            troco = totalPago - totalVenda;
-            txtTroco.setText(uteis.formatoDecimal(troco));
+            pCheque = Double.parseDouble(txtCheque.getText().replaceAll(",", "."));
+            totalPago = pCheque;
         }
-        
+
+        totalVenda = Double.parseDouble(txtTotal.getText().replaceAll(",", "."));
+
+       
+        troco = totalPago - totalVenda;
+        txtTroco.setText(uteis.formatoDecimal(troco));
+
+
     }//GEN-LAST:event_btFinalizarVendaActionPerformed
 
     /**

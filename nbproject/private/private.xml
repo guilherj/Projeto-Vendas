@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/util/uteis.java</file>
             <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/view/FrmProduto.java</file>
             <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/dao/ClienteDAO.java</file>
+            <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/view/FrmTelaInicial.java</file>
             <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/view/FrmCliente.java</file>
             <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/view/FrmPDV.java</file>
             <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/dao/ProdutoDAO.java</file>
             <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/view/FrmPagamento.java</file>
+            <file>file:/D:/Workspaces/NetBeans/Projeto%20Vendas%20Curso/src/view/FrmLogin.java</file>
         </group>
     </open-files>
 </project-private>
