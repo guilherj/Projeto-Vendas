@@ -30,6 +30,9 @@ public class FrmPDV extends javax.swing.JFrame {
     private double total, preco, subTotal;
     private int qtd;
     
+    Cliente obj = new Cliente();
+    ClienteDAO dao = new ClienteDAO();
+    
     DefaultTableModel carrinho;
 
     /**
@@ -39,6 +42,7 @@ public class FrmPDV extends javax.swing.JFrame {
         initComponents();
         this.getContentPane().setBackground(Color.WHITE);
         this.qtd = 0;
+        txtNome.setText("Consumidor");
     }
 
     public double getTotal() {
@@ -477,8 +481,19 @@ public class FrmPDV extends javax.swing.JFrame {
 
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
         // Botão de Pagamento
+        
+        // Setando informações do Consumidor Padrão caso não seja informado nenhum cliente
+        if((txtNome.getText() == "Consumidor")){
+            obj = new Cliente();
+            dao = new ClienteDAO();
+            obj = dao.consultaCliente(txtNome.getText());
+            
+        }
+        
+        //Passando informações de um Form para o outro, chamando esta form e jogando a form anterior em segundo plano
         FrmPagamento telaPagamento = new FrmPagamento();
         telaPagamento.txtTotal.setText(uteis.formatoDecimal(total));
+        telaPagamento.cliente = obj;
         telaPagamento.setVisible(true);
         this.dispose();
 
@@ -508,9 +523,6 @@ public class FrmPDV extends javax.swing.JFrame {
 
     private void btPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarClienteActionPerformed
         // Buscar Cliente ao clicar no botão pesquisar
-
-        Cliente obj = new Cliente();
-        ClienteDAO dao = new ClienteDAO();
 
         obj = dao.consultaClientePorCpf(txtCpf.getText());
         txtNome.setText(obj.getNome());
@@ -590,8 +602,8 @@ public class FrmPDV extends javax.swing.JFrame {
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            Cliente obj = new Cliente();
-            ClienteDAO dao = new ClienteDAO();
+            obj = new Cliente();
+            dao = new ClienteDAO();
 
             obj = dao.consultaClientePorCpf(txtCpf.getText());
             txtNome.setText(obj.getNome());

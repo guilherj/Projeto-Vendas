@@ -5,7 +5,12 @@
  */
 package view;
 
+import dao.VendaDAO;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JTextField;
+import model.Cliente;
+import model.Venda;
 import util.uteis;
 
 /**
@@ -14,9 +19,8 @@ import util.uteis;
  */
 public class FrmPagamento extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmPagamento
-     */
+    Cliente cliente = new Cliente();
+    
     public FrmPagamento() {
         initComponents();
     }
@@ -245,7 +249,30 @@ public class FrmPagamento extends javax.swing.JFrame {
        
         troco = totalPago - totalVenda;
         txtTroco.setText(uteis.formatoDecimal(troco));
-
+        
+        // *** MONTANDO A VENDA PARA O BANCO DE DADOS ***
+        Venda venda = new Venda();
+        
+        // Pegando os dados do cliente
+        venda.setCliente(cliente);
+        
+        // Pegando a Data da Venda
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dataVenda = sdf.format(date);
+        
+        venda.setDataVenda(dataVenda);
+        
+        // Pegando o Total da venda
+        venda.setTotalvenda(totalVenda);
+        
+       /*
+        Após pegar todos os dados necessários para salvar a venda no BD agora tem que executar o método com
+        o comando sql para salvar a venda no BD
+        */
+       
+       VendaDAO daoVenda = new VendaDAO();
+       daoVenda.efetuarVenda(venda);
 
     }//GEN-LAST:event_btFinalizarVendaActionPerformed
 
