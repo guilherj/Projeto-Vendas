@@ -39,7 +39,7 @@ public class VendaDAO {
             st.execute();
             st.close();
 
-            JOptionPane.showMessageDialog(null, "Venda Efetuada com Sucesso!");
+            
 
         } catch (SQLException e) {
 

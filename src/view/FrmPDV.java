@@ -42,7 +42,9 @@ public class FrmPDV extends javax.swing.JFrame {
         initComponents();
         this.getContentPane().setBackground(Color.WHITE);
         this.qtd = 0;
-        txtNome.setText("Consumidor");
+        this.obj = this.dao.consultaCliente("Consumidor");
+        txtNome.setText(this.obj.getNome());
+        
     }
 
     public double getTotal() {
@@ -482,18 +484,13 @@ public class FrmPDV extends javax.swing.JFrame {
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
         // Botão de Pagamento
         
-        // Setando informações do Consumidor Padrão caso não seja informado nenhum cliente
-        if((txtNome.getText() == "Consumidor")){
-            obj = new Cliente();
-            dao = new ClienteDAO();
-            obj = dao.consultaCliente(txtNome.getText());
-            
-        }
+        
         
         //Passando informações de um Form para o outro, chamando esta form e jogando a form anterior em segundo plano
         FrmPagamento telaPagamento = new FrmPagamento();
         telaPagamento.txtTotal.setText(uteis.formatoDecimal(total));
         telaPagamento.cliente = obj;
+        telaPagamento.carrinho = carrinho;
         telaPagamento.setVisible(true);
         this.dispose();
 

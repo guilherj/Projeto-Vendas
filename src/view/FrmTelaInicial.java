@@ -63,7 +63,7 @@ public class FrmTelaInicial extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistema de Controle de Estoque");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -158,6 +158,11 @@ public class FrmTelaInicial extends javax.swing.JFrame {
         jMenu5.setText("Vendas");
 
         jMenuItem6.setText("Abrir PDV");
+        jMenuItem6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jMenuItem6KeyPressed(evt);
+            }
+        });
         jMenu5.add(jMenuItem6);
 
         jMenuItem7.setText("Posição do Dia");
@@ -206,6 +211,14 @@ public class FrmTelaInicial extends javax.swing.JFrame {
         labelUsuario.setText(usuarioLogado); //label que puxa o nome do usuario logado no sistema
         this.setVisible(true);
     }//GEN-LAST:event_formWindowActivated
+
+    private void jMenuItem6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItem6KeyPressed
+        // Abrir PDV
+        FrmPDV telaPDV = new FrmPDV();
+        telaPDV.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_jMenuItem6KeyPressed
 
     /**
      * @param args the command line arguments

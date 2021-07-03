@@ -5,11 +5,16 @@
  */
 package view;
 
+import dao.ItemVendaDAO;
 import dao.VendaDAO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import model.Cliente;
+import model.ItemVenda;
+import model.Produto;
 import model.Venda;
 import util.uteis;
 
@@ -20,6 +25,7 @@ import util.uteis;
 public class FrmPagamento extends javax.swing.JFrame {
 
     Cliente cliente = new Cliente();
+    DefaultTableModel carrinho;
     
     public FrmPagamento() {
         initComponents();
@@ -273,6 +279,31 @@ public class FrmPagamento extends javax.swing.JFrame {
        
        VendaDAO daoVenda = new VendaDAO();
        daoVenda.efetuarVenda(venda);
+       // *** FIM DA MONTAGEM DA VENDA PARA O BANCO DE DADOS ***
+       
+       // Retornando o ID da última venda
+       venda.setId(daoVenda.retornaUltimavenda());
+       
+       // Cadastrando os Itens na tabela ItemVenda do BD
+       for(int i = 0; i < carrinho.getRowCount(); i++){
+           
+           Produto produto = new Produto();
+           ItemVenda itens = new ItemVenda();
+           
+           itens.setVenda(venda);
+           
+           produto.setId(Integer.parseInt(carrinho.getValueAt(i, 0).toString()));
+           itens.setProduto(produto);
+           
+           itens.setQtd(Integer.parseInt(carrinho.getValueAt(i, 2).toString()));
+           itens.setSubTotal(Double.parseDouble(carrinho.getValueAt(i, 4).toString().replaceAll(",", ".")));
+           
+           ItemVendaDAO itemVendaDao = new ItemVendaDAO();
+           itemVendaDao.ItensVenda(itens);
+                      
+       }
+       
+       JOptionPane.showMessageDialog(null, "Venda Efetuada com Sucesso!");
 
     }//GEN-LAST:event_btFinalizarVendaActionPerformed
 
