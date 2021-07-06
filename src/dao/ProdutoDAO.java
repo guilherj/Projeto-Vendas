@@ -258,8 +258,8 @@ public class ProdutoDAO {
             
             PreparedStatement st = conn.prepareStatement(sql);
             
-            st.setInt(1, id);
-            st.setInt(2, qtdNova);
+            st.setInt(1, qtdNova);
+            st.setInt(2, id);
             st.execute();
             st.close();
             

@@ -6,6 +6,7 @@
 package view;
 
 import dao.ItemVendaDAO;
+import dao.ProdutoDAO;
 import dao.VendaDAO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -288,6 +289,7 @@ public class FrmPagamento extends javax.swing.JFrame {
        for(int i = 0; i < carrinho.getRowCount(); i++){
            
            Produto produto = new Produto();
+           ProdutoDAO daoProduto = new ProdutoDAO();
            ItemVenda itens = new ItemVenda();
            
            itens.setVenda(venda);
@@ -297,6 +299,13 @@ public class FrmPagamento extends javax.swing.JFrame {
            
            itens.setQtd(Integer.parseInt(carrinho.getValueAt(i, 2).toString()));
            itens.setSubTotal(Double.parseDouble(carrinho.getValueAt(i, 4).toString().replaceAll(",", ".")));
+           
+           // Baixa no Estoque
+           int qtdEstoque = daoProduto.retornaEstoqueAtual(produto.getId());
+           int qtdComprada = Integer.parseInt(carrinho.getValueAt(i, 2).toString());
+           int qtdAtualizada = qtdEstoque - qtdComprada;
+           
+           daoProduto.baixaEstoque(produto.getId(), qtdAtualizada);
            
            ItemVendaDAO itemVendaDao = new ItemVendaDAO();
            itemVendaDao.ItensVenda(itens);
