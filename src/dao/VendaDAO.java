@@ -9,8 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import jdbc.ConnectionFactory;
+import model.Cliente;
 import model.Venda;
 
 /**
@@ -74,6 +78,54 @@ public class VendaDAO {
          
         }
           
+    }
+    
+    // Método para Filtrar Vendas Por Período
+     public List<Venda> vendaPorPeriodo(LocalDate dataInicial, LocalDate dataFinal) {
+
+        try {
+
+            // 1º Passo: Criar a lista
+            List<Venda> lista = new ArrayList<>();
+            
+            String dataHoraInicial;
+            String dataHoraFinal;
+
+            // 2º Passo: Criar, organizar e executar o comando SQL
+            String sql = "SELECT v.id, v.data_venda, c.nome, v.total_venda FROM tb_vendas as v "
+                    + "INNER JOIN tb_clientes as c ON(v.cliente_id = c.id) WHERE v.data_venda BETWEEN ? AND ?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+            
+            dataHoraInicial = dataInicial.toString() + " 00:00:00";
+            dataHoraFinal = dataFinal.toString() + " 23:59:59";
+            
+            st.setString(1, dataHoraInicial);
+            st.setString(2, dataHoraFinal);
+            
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                Venda obj = new Venda();
+                Cliente c = new Cliente();
+                
+                obj.setId(rs.getInt("v.id"));
+                obj.setDataVenda(rs.getString("v.data_venda"));
+                c.setNome(rs.getString("c.nome"));
+                obj.setTotalvenda(rs.getDouble("v.total_venda"));
+                
+                obj.setCliente(c);
+               
+                lista.add(obj);
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
+            return null;
+
+        }
     }
     
 }
