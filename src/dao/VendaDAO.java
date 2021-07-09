@@ -92,7 +92,7 @@ public class VendaDAO {
             String dataHoraFinal;
 
             // 2º Passo: Criar, organizar e executar o comando SQL
-            String sql = "SELECT v.id, v.data_venda, c.nome, v.total_venda FROM tb_vendas as v "
+            String sql = "SELECT v.id, date_format(v.data_venda,'%d/%m/%Y %H:%m:%s') as data_formatada, c.nome, v.total_venda FROM tb_vendas as v "
                     + "INNER JOIN tb_clientes as c ON(v.cliente_id = c.id) WHERE v.data_venda BETWEEN ? AND ?";
 
             PreparedStatement st = conn.prepareStatement(sql);
@@ -110,7 +110,7 @@ public class VendaDAO {
                 Cliente c = new Cliente();
                 
                 obj.setId(rs.getInt("v.id"));
-                obj.setDataVenda(rs.getString("v.data_venda"));
+                obj.setDataVenda(rs.getString("data_formatada"));
                 c.setNome(rs.getString("c.nome"));
                 obj.setTotalvenda(rs.getDouble("v.total_venda"));
                 

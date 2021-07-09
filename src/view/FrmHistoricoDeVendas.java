@@ -5,12 +5,16 @@
  */
 package view;
 
+import dao.ItemVendaDAO;
 import dao.VendaDAO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import model.ItemVenda;
+import model.Produto;
 import model.Venda;
+import util.uteis;
 
 /**
  *
@@ -161,6 +165,11 @@ public class FrmHistoricoDeVendas extends javax.swing.JFrame {
                 "Código", "Data da Venda", "Cliente", "Total da Venda"
             }
         ));
+        tabelaHistoricoVendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaHistoricoVendasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaHistoricoVendas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -226,11 +235,48 @@ public class FrmHistoricoDeVendas extends javax.swing.JFrame {
                 v.getId(),
                 v.getDataVenda(),
                 v.getCliente().getNome(),
-                v.getTotalvenda()
+                uteis.formatoDecimal(v.getTotalvenda())
                     
             });
         }
+        txtDataInicial.setText("");
+        txtDataFinal.setText("");
     }//GEN-LAST:event_btPesquisarActionPerformed
+
+    private void tabelaHistoricoVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaHistoricoVendasMouseClicked
+        // Clicar numa Venda
+        
+        FrmDetalheVenda dtVenda = new FrmDetalheVenda();
+        
+        //Detalhes da venda
+        dtVenda.txtCliente.setText(tabelaHistoricoVendas.getValueAt(tabelaHistoricoVendas.getSelectedRow(), 2).toString());
+        dtVenda.txtEmissaoVenda.setText(tabelaHistoricoVendas.getValueAt(tabelaHistoricoVendas.getSelectedRow(), 1).toString());
+        dtVenda.labelTotalVenda.setText(tabelaHistoricoVendas.getValueAt(tabelaHistoricoVendas.getSelectedRow(), 3).toString());
+        
+        int VendaId = Integer.parseInt(tabelaHistoricoVendas.getValueAt(tabelaHistoricoVendas.getSelectedRow(), 0).toString());
+        
+        //Detalhes dos Produtos da Venda
+        ItemVenda itens = new ItemVenda();
+        ItemVendaDAO daoItem = new ItemVendaDAO();
+        List<ItemVenda> listaItens = daoItem.ItensPorVenda(VendaId);
+        
+        DefaultTableModel dados = (DefaultTableModel) dtVenda.tabelaDetalheVenda.getModel();
+       dados.setNumRows(0);
+        
+       for(ItemVenda i: listaItens){
+           dados.addRow(new Object[]{
+           i.getId(),
+           i.getProduto().getDescricao(),
+           i.getQtd(),
+           uteis.formatoDecimal(i.getProduto().getPreco()),
+           uteis.formatoDecimal(i.getSubTotal())
+                   
+           });
+       }
+        
+        
+        dtVenda.setVisible(true);
+    }//GEN-LAST:event_tabelaHistoricoVendasMouseClicked
 
     /**
      * @param args the command line arguments
