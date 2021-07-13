@@ -8,6 +8,7 @@ package view;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -177,12 +178,22 @@ public class FrmTelaInicial extends javax.swing.JFrame {
         jMenu6.setText("Configurações");
 
         jMenuItem9.setText("Troca de Usuário");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem9);
 
         jMenuBar1.add(jMenu6);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/sair.png"))); // NOI18N
         jMenu7.setText("Sair");
+        jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu7MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
@@ -219,6 +230,28 @@ public class FrmTelaInicial extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_jMenuItem6KeyPressed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // Logout
+        
+        FrmLogin telaLogin = new FrmLogin();
+        
+        this.dispose();
+        
+        telaLogin.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
+        // Sair do Sistema
+        
+        int op;
+        
+        op = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?");
+        
+        if(op ==0){
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jMenu7MouseClicked
 
     /**
      * @param args the command line arguments
