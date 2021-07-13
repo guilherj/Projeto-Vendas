@@ -57,8 +57,8 @@ public class FrmTelaInicial extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        MenuPosicaoDia = new javax.swing.JMenuItem();
+        MenuHistoricoVendas = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -165,11 +165,11 @@ public class FrmTelaInicial extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem6);
 
-        jMenuItem7.setText("Posição do Dia");
-        jMenu5.add(jMenuItem7);
+        MenuPosicaoDia.setText("Posição do Dia");
+        jMenu5.add(MenuPosicaoDia);
 
-        jMenuItem8.setText("Histórico de Vendas");
-        jMenu5.add(jMenuItem8);
+        MenuHistoricoVendas.setText("Histórico de Vendas");
+        jMenu5.add(MenuHistoricoVendas);
 
         jMenuBar1.add(jMenu5);
 
@@ -256,6 +256,8 @@ public class FrmTelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JMenuItem MenuHistoricoVendas;
+    public javax.swing.JMenuItem MenuPosicaoDia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -271,8 +273,6 @@ public class FrmTelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelUsuario;

@@ -127,5 +127,36 @@ public class VendaDAO {
 
         }
     }
+     
+     public double TotalDaVendaPorData(LocalDate dataVenda) {
+
+        try {
+
+            double totalVenda = 0;
+                        
+            String sql = "SELECT SUM(total_venda) as total from tb_vendas where data_venda BETWEEN ? AND ?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+            
+            String dataHoraInicio = dataVenda.toString() + " 00:00:00";
+            String dataHoraFinal = dataVenda.toString() + " 23:59:59";
+            
+            st.setString(1, dataHoraInicio);
+            st.setString(2, dataHoraFinal);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                
+                totalVenda = rs.getDouble("total");
+                
+            }
+
+            return totalVenda;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
     
 }

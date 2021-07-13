@@ -296,10 +296,31 @@ public class FuncionarioDAO {
         if(rs.next()){
             // Usuário Logado
             
-           JOptionPane.showMessageDialog(null, "Seja Bem Vindo ao Sistema!");
+            //Logando com usuário Admin
+            if(rs.getString("nivel_acesso").equals("Administrador")){
+            JOptionPane.showMessageDialog(null, "Seja Bem Vindo ao Sistema!");
             FrmTelaInicial tela = new FrmTelaInicial();
             tela.usuarioLogado = rs.getString("nome");
             tela.setVisible(true);
+            
+            } 
+            //Logando com Usuário normal
+            else if(rs.getString("nivel_acesso").equals("Usuário")){
+                
+            JOptionPane.showMessageDialog(null, "Seja Bem Vindo ao Sistema!");
+            FrmTelaInicial tela = new FrmTelaInicial();
+            tela.usuarioLogado = rs.getString("nome");
+            
+            //Desabilitando Menus que um usuário normal não tem acesso
+            tela.MenuHistoricoVendas.setEnabled(false); //setEnale mantém o menu aparecendo mais sem poder clicar
+            tela.MenuPosicaoDia.setVisible(false); //setVisible oculta o menu.
+            tela.setVisible(true);
+                
+            }
+            
+            
+            
+            
         } else{
            // Falha no logon
            JOptionPane.showMessageDialog(null, "Falha no Logon - Dados Inválidos!");
