@@ -6,6 +6,7 @@
 package view;
 
 import dao.FuncionarioDAO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -71,6 +72,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         btSair.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btSair.setText("SAIR");
+        btSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSairActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 
@@ -163,6 +169,20 @@ public class FrmLogin extends javax.swing.JFrame {
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
+
+    private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
+         // Sair do Sistema
+         
+         System.exit(0);
+        
+//        int op;
+//        
+//        op = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?");
+//        
+//        if(op ==0){
+//            System.exit(0);
+//        }
+    }//GEN-LAST:event_btSairActionPerformed
 
     /**
      * @param args the command line arguments

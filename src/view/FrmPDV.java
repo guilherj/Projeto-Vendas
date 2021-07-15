@@ -112,7 +112,7 @@ public class FrmPDV extends javax.swing.JFrame {
         tabelaPDV = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("PDV");
+        setTitle("Ponto de Venda");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -501,6 +501,9 @@ public class FrmPDV extends javax.swing.JFrame {
     }//GEN-LAST:event_btCancelarVendaActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // Ao Abir a Form já abre Maximizado
+        this.setExtendedState(this.MAXIMIZED_BOTH);
+
         // Carregar Data atual do micro
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");

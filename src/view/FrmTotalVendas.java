@@ -41,7 +41,8 @@ public class FrmTotalVendas extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtTotalVenda = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Total de Vendas Por Dia");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 
